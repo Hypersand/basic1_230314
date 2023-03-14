@@ -15,4 +15,17 @@ public class HomeController {
         return "안녕하세요!";
     }
 
+
+    @GetMapping("/home/main2")
+    @ResponseBody
+    public String showMain2() {
+        return "반갑습니다.";
+    }
+
+    @GetMapping("/home/main3")
+    @ResponseBody
+    public String showMain3() {
+        return "즐거웠습니다.";
+    }
+
 }
