@@ -1,6 +1,9 @@
 package com.ll.basic1;
 
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -91,6 +94,27 @@ public class HomeController {
 
         return "응답 : " + id + "번 사람이 수정되었습니다.";
     }
+
+    @GetMapping("/home/cookie/increase")
+    @ResponseBody
+    public int showCookieIncrease(HttpServletRequest request, HttpServletResponse response) {
+        int countCookie = 0;
+
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("count")) {
+                    countCookie = Integer.parseInt(cookie.getValue());
+                }
+            }
+        }
+
+        int newCountCookie = countCookie + 1;
+
+        response.addCookie(new Cookie("count", newCountCookie + ""));
+
+        return newCountCookie;
+    }
+
 
 
     private static Person findById(int id) {
