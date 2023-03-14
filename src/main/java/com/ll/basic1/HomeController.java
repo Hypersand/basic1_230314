@@ -16,7 +16,7 @@ import java.util.List;
 public class HomeController {
 
     private static int count = 0;
-    private static List<Person> list = new ArrayList<>();
+    private static List<Person> personList = new ArrayList<>();
 
     @GetMapping("/home/main")
     @ResponseBody // 리턴값을 응답으로 삼는다.
@@ -54,7 +54,7 @@ public class HomeController {
     @ResponseBody
     public String addPerson(@RequestParam String name, @RequestParam int age) {
         Person person = new Person(++count, name, age);
-        list.add(person);
+        personList.add(person);
 
         return count + "번 사람이 추가되었습니다.";
     }
@@ -62,7 +62,7 @@ public class HomeController {
     @GetMapping("/home/people")
     @ResponseBody
     public List<Person> listPerson() {
-        return list;
+        return personList;
     }
 
 
