@@ -78,6 +78,20 @@ public class HomeController {
         return "응답 : " + id + "번 사람이 삭제되었습니다.";
     }
 
+    @GetMapping("/home/modifyPerson")
+    @ResponseBody
+    public String modifyList(@RequestParam int id, @RequestParam String name, @RequestParam int age) {
+        Person person = findById(id);
+        if (person == null) {
+            return "응답 : " + id + "번 사람이 존재하지 않습니다.";
+        }
+
+        person.setName(name);
+        person.setAge(age);
+
+        return "응답 : " + id + "번 사람이 수정되었습니다.";
+    }
+
 
     private static Person findById(int id) {
         for (Person person : personList) {
