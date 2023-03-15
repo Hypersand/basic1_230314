@@ -19,6 +19,14 @@ public class MemberController {
     @GetMapping("/member/login")
     @ResponseBody
     public RsData showLogin(@RequestParam String username, @RequestParam String password) {
+        if ( username == null || username.trim().length() == 0 ) {
+            return new RsData("F-3", "username(을)를 입력해주세요.");
+        }
+
+        if ( password == null || password.trim().length() == 0 ) {
+            return new RsData("F-4", "password(을)를 입력해주세요.");
+        }
+
         return memberService.tryLogin(username, password);
     }
 
