@@ -6,7 +6,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -97,25 +100,38 @@ public class HomeController {
 
     @GetMapping("/home/cookie/increase")
     @ResponseBody
-    public int showCookieIncrease(HttpServletRequest request, HttpServletResponse response) {
-        int countCookie = 0;
+    public String showCookieCount(HttpServletRequest request, HttpServletResponse response) {
+        int cookieCount = 0;
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("count")) {
-                    countCookie = Integer.parseInt(cookie.getValue());
+                    cookieCount = Integer.parseInt(cookie.getValue());
                 }
             }
         }
 
-        int newCountCookie = countCookie + 1;
+        int newCookieCount = cookieCount + 1;
+        response.addCookie(new Cookie("count", newCookieCount + ""));
 
-        response.addCookie(new Cookie("count", newCountCookie + ""));
-
-        return newCountCookie;
+        return "쿠키 count : " + newCookieCount;
     }
 
 
+    @GetMapping("/member/login")
+    @ResponseBody
+    public Message showLogin(@RequestParam String username, @RequestParam String password) {
+
+        if (username.equals("user1") && password.equals("1234")) {
+            return new Message("S-1", username + "님 환영합니다.");
+        }
+
+        if (username.equals("user1")) {
+            return new Message("F-1", "비밀번호가 일치하지 않습니다.");
+        }
+
+        return new Message("F-2", username + "(은)는 존재하지 않는 회원입니다.");
+    }
 
     private static Person findById(int id) {
         for (Person person : personList) {
@@ -134,6 +150,15 @@ public class HomeController {
         private int age;
 
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class Message {
+        private String resultCode;
+        private String msg;
+    }
+
 
 }
 
