@@ -1,7 +1,6 @@
 package com.ll.basic1.member;
 
-import com.ll.basic1.base.Message;
-
+import com.ll.basic1.base.RsData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +18,7 @@ public class MemberController {
 
     @GetMapping("/member/login")
     @ResponseBody
-    public Message showLogin(@RequestParam String username, @RequestParam String password) {
+    public RsData showLogin(@RequestParam String username, @RequestParam String password) {
         return memberService.tryLogin(username, password);
     }
 
