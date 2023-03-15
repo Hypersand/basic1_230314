@@ -1,5 +1,6 @@
-package com.ll.basic1.member;
+package com.ll.basic1.member.repository;
 
+import com.ll.basic1.member.entity.Member;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -33,5 +34,13 @@ public class MemberRepository {
         return null;
     }
 
+    public Member findById(long id) {
+        for (Member member : memberList) {
+            if (member.getId() == id) {
+                return member;
+            }
+        }
+        return null;
+    }
 
 }

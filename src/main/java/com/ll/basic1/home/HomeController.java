@@ -1,4 +1,4 @@
-package com.ll.basic1;
+package com.ll.basic1.home;
 
 
 import jakarta.servlet.http.Cookie;
@@ -118,21 +118,6 @@ public class HomeController {
     }
 
 
-    @GetMapping("/member/login")
-    @ResponseBody
-    public Message showLogin(@RequestParam String username, @RequestParam String password) {
-
-        if (username.equals("user1") && password.equals("1234")) {
-            return new Message("S-1", username + "님 환영합니다.");
-        }
-
-        if (username.equals("user1")) {
-            return new Message("F-1", "비밀번호가 일치하지 않습니다.");
-        }
-
-        return new Message("F-2", username + "(은)는 존재하지 않는 회원입니다.");
-    }
-
     private static Person findById(int id) {
         for (Person person : personList) {
             if (person.id == id) {
@@ -150,15 +135,5 @@ public class HomeController {
         private int age;
 
     }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    private static class Message {
-        private String resultCode;
-        private String msg;
-    }
-
-
 }
 

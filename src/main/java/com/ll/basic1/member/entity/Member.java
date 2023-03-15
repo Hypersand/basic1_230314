@@ -1,4 +1,4 @@
-package com.ll.basic1.member;
+package com.ll.basic1.member.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -12,6 +12,8 @@ public class Member {
     private final long id;
     private final String username;
     private final String password;
+
+
 
 
 }
