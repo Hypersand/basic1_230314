@@ -4,8 +4,6 @@ import com.ll.basic1.base.Rq;
 import com.ll.basic1.base.RsData;
 import com.ll.basic1.member.entity.Member;
 import com.ll.basic1.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MemberController {
 
     private final MemberService memberService;
+    private final Rq rq;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, Rq rq) {
         this.memberService = memberService;
+        this.rq = rq;
     }
 
 
     @GetMapping("/member/login")
     @ResponseBody
-    public RsData showLogin(HttpServletRequest request,HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
+    public RsData showLogin(@RequestParam String username, @RequestParam String password) {
         if (username == null || username.trim().length() == 0) {
             return RsData.of("F-3", "username(을)를 입력해주세요.");
         }
@@ -34,7 +34,6 @@ public class MemberController {
             return RsData.of("F-4", "password(을)를 입력해주세요.");
         }
 
-        Rq rq = new Rq(request,response);
 
         RsData rsData = memberService.tryLogin(username, password);
         if (rsData.isSuccess()) {
@@ -47,8 +46,7 @@ public class MemberController {
 
     @GetMapping("/member/logout")
     @ResponseBody
-    public RsData showLogout(HttpServletRequest request, HttpServletResponse response) {
-        Rq rq = new Rq(request, response);
+    public RsData showLogout() {
         rq.removeCookie("loginMemberId");
 
         return RsData.of("S-1", "로그아웃 되었습니다.");
@@ -56,9 +54,8 @@ public class MemberController {
 
     @GetMapping("/member/me")
     @ResponseBody
-    public RsData showMe(HttpServletRequest request,HttpServletResponse response) {
+    public RsData showMe() {
 
-        Rq rq = new Rq(request,response);
         int loginMemberId = rq.getLoginMemberId();
 
         if (loginMemberId == -1) {

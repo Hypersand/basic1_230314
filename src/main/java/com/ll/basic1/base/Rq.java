@@ -4,11 +4,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 
-@Data
 @AllArgsConstructor
+@Component
+@RequestScope // 요청이 발생할때마다 Bean 객체가 생성되어 자동으로 주입된다.
 public class Rq {
 
     private final HttpServletRequest request;
