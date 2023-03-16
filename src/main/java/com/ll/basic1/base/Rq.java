@@ -3,6 +3,7 @@ package com.ll.basic1.base;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -20,7 +21,7 @@ public class Rq {
         response.addCookie(new Cookie("loginMemberId", id + ""));
     }
 
-    public int getLoginMemberId() {
+    public int getCookie() {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("loginMemberId")) {
@@ -54,4 +55,32 @@ public class Rq {
         return false;
     }
 
+    public void setSession(String name, Long value) {
+        HttpSession session = request.getSession();
+        session.setAttribute(name, value);
+    }
+
+    public long getSession(String name) {
+        Long value = (Long)request.getSession().getAttribute(name);
+        if (value == null) {
+            return -1;
+        }
+
+        return value;
+    }
+
+    public void removeSession(String name) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(name);
+    }
+
+    public boolean canRemoveSession(String name) {
+        HttpSession session = request.getSession();
+
+        if (session.getAttribute(name) == null) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -38,7 +38,7 @@ public class MemberController {
         RsData rsData = memberService.tryLogin(username, password);
         if (rsData.isSuccess()) {
             Member member = (Member) rsData.getData();
-            rq.setCookie(member.getId());
+            rq.setSession("loginMemberId", member.getId());
         }
 
         return rsData;
@@ -47,8 +47,8 @@ public class MemberController {
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData showLogout() {
-        if (rq.canRemoveCookie("loginMemberId")) {
-            rq.removeCookie("loginMemberId");
+        if (rq.canRemoveSession("loginMemberId")) {
+            rq.removeSession("loginMemberId");
             return RsData.of("S-1", "로그아웃 되었습니다.");
         }
 
@@ -59,14 +59,13 @@ public class MemberController {
     @ResponseBody
     public RsData showMe() {
 
-        int loginMemberId = rq.getLoginMemberId();
+        long loginMemberId = rq.getSession("loginMemberId");
 
         if (loginMemberId == -1) {
             return RsData.of("F-1", "로그인 후 이용해주세요.");
         }
 
         Member member = memberService.findById(loginMemberId);
-
         return RsData.of("S-1", "당신의 username(은)는 " + member.getUsername() + "입니다.");
     }
 
