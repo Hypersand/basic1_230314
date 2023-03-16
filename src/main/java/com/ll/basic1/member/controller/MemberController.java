@@ -47,9 +47,12 @@ public class MemberController {
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData showLogout() {
-        rq.removeCookie("loginMemberId");
+        if (rq.canRemoveCookie("loginMemberId")) {
+            rq.removeCookie("loginMemberId");
+            return RsData.of("S-1", "로그아웃 되었습니다.");
+        }
 
-        return RsData.of("S-1", "로그아웃 되었습니다.");
+        return RsData.of("S-2", "이미 로그아웃 되었습니다.");
     }
 
     @GetMapping("/member/me")

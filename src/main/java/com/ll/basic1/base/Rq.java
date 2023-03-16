@@ -43,4 +43,15 @@ public class Rq {
         }
     }
 
+    public boolean canRemoveCookie(String key) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
