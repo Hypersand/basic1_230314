@@ -7,6 +7,7 @@ import com.ll.basic1.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,7 +19,6 @@ public class MemberController {
     private final Rq rq;
 
 
-
     @GetMapping("/member/login")
     public String attemptLogin() {
         boolean checkLogin = rq.checkLogin("loginMemberId");
@@ -28,7 +28,7 @@ public class MemberController {
         return "login/loginPage";
     }
 
-    @GetMapping("/member/doLogin")
+    @PostMapping("/member/login")
     @ResponseBody
     public RsData showLogin(@RequestParam String username, @RequestParam String password) {
         if (username == null || username.trim().length() == 0) {
