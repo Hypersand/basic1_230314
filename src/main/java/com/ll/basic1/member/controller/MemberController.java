@@ -4,26 +4,31 @@ import com.ll.basic1.base.Rq;
 import com.ll.basic1.base.RsData;
 import com.ll.basic1.member.entity.Member;
 import com.ll.basic1.member.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@AllArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final Rq rq;
 
-    @Autowired
-    public MemberController(MemberService memberService, Rq rq) {
-        this.memberService = memberService;
-        this.rq = rq;
-    }
 
 
     @GetMapping("/member/login")
+    public String attemptLogin() {
+        boolean checkLogin = rq.checkLogin("loginMemberId");
+        if (checkLogin) {
+            return "login/alreadyLoginPage";
+        }
+        return "login/loginPage";
+    }
+
+    @GetMapping("/member/doLogin")
     @ResponseBody
     public RsData showLogin(@RequestParam String username, @RequestParam String password) {
         if (username == null || username.trim().length() == 0) {

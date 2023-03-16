@@ -83,4 +83,12 @@ public class Rq {
 
         return true;
     }
+
+    public boolean checkLogin(String name) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute(name) == null) {
+            return false;
+        }
+        return true;
+    }
 }
