@@ -1,6 +1,5 @@
 package com.ll.basic1.base;
 
-import com.ll.basic1.member.entity.Member;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,33 +11,23 @@ import lombok.Data;
 @AllArgsConstructor
 public class Rq {
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-
-    public Rq(HttpServletRequest request) {
-        this.request = request;
-    }
-
-    public Rq(HttpServletResponse response) {
-        this.response = response;
-    }
+    private final HttpServletRequest request;
+    private final HttpServletResponse response;
 
     public void setCookie(Long id) {
         response.addCookie(new Cookie("loginMemberId", id + ""));
     }
 
-    public String getLoginMemberId() {
-
+    public int getLoginMemberId() {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("loginMemberId")) {
-                    return cookie.getValue();
+                    return Integer.parseInt(cookie.getValue());
                 }
 
             }
         }
-
-        return null;
+        return -1;
     }
 
     public void removeCookie(String key) {
