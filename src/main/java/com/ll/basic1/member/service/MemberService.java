@@ -31,9 +31,17 @@ public class MemberService {
 
 
     public Member findById(long id) {
-        Member member = memberRepository.findById(id).orElse(null);
+        return memberRepository.findById(id).orElse(null);
+    }
 
-        return member;
+    public void join(String username, String password) {
+        Member member = Member
+                .builder()
+                .username(username)
+                .password(password)
+                .build();
+
+        memberRepository.save(member);
     }
 
 }
